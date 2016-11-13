@@ -88,5 +88,30 @@ class App(Tk):
         label = Label(popup2, text=msg).pack()
         exit = Button(popup2, text="Ok", command=leave).pack()
         register = Button(popup2, text="Register", command=self.register).pack()
+class Manage():
+    def __init(self):
+        Tk.__init__(self)
+        self.geometry("450")
+        self.title("Manage")
+        
+        menu = Menu(self)
+        self.config(menu=menu)
+        account = Menu(menu)
+        account.add_command(label="Change Username", command=self.uChange)
+        account.add_command(label="Chnage Password", command=self.pChange)
+        menu.add_cascade(label="Account", menu=account)
+        
+        self.title = Label(self, text="Login Form\n").pack()
+        self.username = Entry(self, width=30)
+        self.username.pack()
+        self.password = Entry(self, width=30, show="*")
+        self.password.pack()
+        self.pin = Entry(self, width="10", show="*", text="pin")
+        self.pin.pack()
+        space = Label(self).pack()
+        self.enter = Button(self, text="Login", command=self.login).pack()
 root = App()
 root.mainloop()
+
+secr = Manage()
+secr.mainloop()
