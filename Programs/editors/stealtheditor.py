@@ -1,5 +1,5 @@
-from Tkinter import *
-from tkFileDialog import *
+from tkinter import *
+#from tkFileDialog import *
 filename = None
 def newFile():
 	global filename
