@@ -49,7 +49,7 @@ class App(Tk):
         account.add_command(label="Login", command=App())
         menu.add_cascade(label="Account", menu=account)
         
-        self.regi.title = Label(self.regi, text="Register Form\n").pack()
+        self.regi.head = Label(self.regi, text="Register Form\n").pack()
         self.regi.username = Entry(self.regi, width=30)
         self.regi.username.pack()
         self.regi.password = Entry(self.regi, width=30, show="*")
