@@ -36,6 +36,7 @@ class App(Tk):
                 if correctCreds.read() == str(credentials):
                         #Call Function Here
                     self.popup("Correct Credentials!")
+                    forum = Manage(self.username, self.password, self.pin)
                     self.regi.destroy()
         else:
             self.popup2("Incorrect Credentials!")
@@ -90,7 +91,7 @@ class App(Tk):
         label = Label(popup2, text=msg).pack()
         exit = Button(popup2, text="Ok", command=leave).pack()
         register = Button(popup2, text="Register", command=self.register).pack()
-class Manage():
+class Manage(Tk):
     def __init__(self, username, password, pin):
         self.username = username
         self.password = password
@@ -122,8 +123,9 @@ class Manage():
                 creds.append(self.username)
                 creds.append(self.password)
                 creds.append(self.pin)
-                writer.write(str(creds)
-            App.popup("Username Change Successful.")
+                writer.write(str(creds))
+            something = App()
+            something.popup("Username Change Successful.")
         else:
             App.popup("Username Change Failed; incorrect password.")
     def uChange(self):
@@ -139,7 +141,7 @@ class Manage():
         changer.pW = Entry(changer, show="*", width=30)
         changer.pW.pack()
         
-        changer.submit = Button(changer, text-"Change", command=uChg)
+        changer.submit = Button(changer, text-"Change", command=self.uChg)
 
     def pChange(self):
         changer = Tk()
