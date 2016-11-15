@@ -3,7 +3,7 @@ import os
 from os.path import isfile
 class App(Tk):
     def __init__(self):
-        Tk.__init__(self)
+        self = Tk()
         self.geometry("450x150")
         self.title("Login")
         
@@ -97,7 +97,7 @@ class Manage(Tk):
         self.password = password
         self.pin = pin
 
-        Tk.__init__(self)
+        self = Tk()
         self.geometry("450")
         self.title("Manage")
         
@@ -158,9 +158,5 @@ class Manage(Tk):
         
         changer.submit = Button(changer, text-"Change", command=App.popup)
 
-
 root = App()
 root.mainloop()
-
-secr = Manage()
-secr.mainloop()

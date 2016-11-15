@@ -1,3 +1,5 @@
+'''MAJOR BUG: IF USERNAME IS "USERS", than a account named "USER" can not be created because string "USER" is in "USER" and "USERS" '''
+'''ALSO, MAKE USERS.DLL REMOVE USER WHEN USER IS DELETEDN USER MANAGEMENT'''
 from time import sleep
 #from twilio.rest import TwilioRestClient
 import os, io, sys, smtplib, random, pickle, zipfile
@@ -7,12 +9,23 @@ class Users():
         self.password = ""
         self.manage = ""
         self.passwords = {}
+        self.users = []
+        with open("users.dll", "r") as i:
+            x = i.read()
+            self.users = self.lister(x)
+            print(self.users)
+    def lister(self, text):
+        fixed = text[2:-2]
+        fixed = fixed.replace("'", "")
+        fixed = fixed.replace(" ", "")
+        fixed = fixed.split(",")
+        return fixed
     def options(self):
         while True:
-            welcome = input(self.username+"'s options as {user}: Launch [C]rackers, [L]aunch editing programs, launch [S]ender, launch [P]assword management, [M]anage account or [E]xit? ")
+            welcome = input(self.username+"'s options as {user}: Launch [C]rackers, [L]aunch editing programs, launch [S]enders, launch [P]assword management, [M]anage account or [E]xit? ")
             if welcome == "C" or welcome == "c":
                 while True:
-                    hwo = input("[L]aunch email cracker, [Z]ip cracker, or [E]xit")
+                    hwo = input("[L]aunch email cracker, [Z]ip cracker, or [E]xit? ")
                     if hwo == "L" or hwo == "l":
                         print("Loading. . .")
                         sleep(4)
@@ -47,6 +60,8 @@ class Users():
                                 except:
                                     print("[-] Password failed: %s" % password)
                         print(password)
+                    elif hwo == "E" or hwo == "e":
+                        break
             elif welcome == "M" or welcome == "m":
                 while True:
                     where = input("[D]elete Account, change [P]assword, change [U]sername, or [E]xit? ")
@@ -54,6 +69,7 @@ class Users():
                         confirm = input("Are you sure that you want to delete your account? All personal data and software will be lost. Enter your password to delete account: ")
                         if confirm == self.password:
                             os.remove(self.username+".dll")
+                            self.users.remove(self.username)
                             print("Account Deletion Successful.")
                             person.whereto()
                             break
@@ -198,8 +214,12 @@ class Users():
             htg = self.username+".dll"
             with open(htg, "wb") as file:
                 pickle.dump(self.password, file)
-                os.system("cls")
-                print("Account successfully created!")
+                os.remove("users.dll")
+                with open("users.dll", "w") as xFile:
+                    self.users.append(self.username)
+                    xFile.write(str(self.users))
+                    print("Account successfully created!")
+                    os.system("cls")
         else:
             print("That username is already taken!")
     def login(self):
@@ -227,7 +247,7 @@ class Users():
                 break
     def whereto(self):
         while True:
-            welcome = input("[L]ogin, [R]egister, or [E]xit? ")
+            welcome = input("[L]ogin, [R]egister, or [E]xit " + str(self.users) + "? ")
             if welcome == "L" or welcome == "l":
                 person.login()
             elif welcome == "R" or welcome == "r":
