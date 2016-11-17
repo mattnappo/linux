@@ -8,13 +8,18 @@ class Hold():
 			if wherer == "E" or wherer == "e":
 				self.encrypt()
 			else:
-				self.decode()
+				self.decrypt()
+	def setter(self):
+		self.result = []
+		self.string = []
 	def encrypt(self):
+		self.setter()
 		x = input("Enter String: ")
 		for i in x:
 			self.result.append(chr(ord(i)-2))
 		self.printer()
-	def deocde(self):
+	def decrypt(self):
+		self.setter()
 		x = input("Enter Code: ")
 		for i in x:
 			self.result.append(chr(ord(i)+2))
@@ -22,6 +27,6 @@ class Hold():
 	def printer(self):
 		for x in self.result:
 			print(x, end="")
-			print("\n")
+		print("")
 obj = Hold()
 obj.where()
