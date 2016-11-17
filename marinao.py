@@ -7,14 +7,21 @@ class Hold():
 			wherer = input("[E]ncrypt or [D]ecrpyt a Message? ")
 			if wherer == "E" or wherer == "e":
 				self.encrypt()
+			else:
+				self.decode()
 	def encrypt(self):
 		x = input("Enter String: ")
 		for i in x:
-			self.result.append(ord(y-2))
+			self.result.append(chr(ord(i)-2))
+		self.printer()
 	def deocde(self):
 		x = input("Enter Code: ")
-		for y in x:
-			self.result.append(ord(y+2))
+		for i in x:
+			self.result.append(chr(ord(i)+2))
+		self.printer()
 	def printer(self):
-		print(self.result)
-Hold.where()
+		for x in self.result:
+			print(x, end="")
+			print("\n")
+obj = Hold()
+obj.where()

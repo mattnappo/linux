@@ -70,8 +70,9 @@ class Users():
                         if confirm == self.password:
                             os.remove(self.username+".dll")
                             self.users.remove(self.username)
-                            os.remove("users.dll")
                             with open("users.dll", "w") as xfile:
+                                xfile.seek(0)
+                                xfile.truncate()
                                 xfile.write(str(self.users))
                             print("Account Deletion Successful.")
                             person.whereto()
