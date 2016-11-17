@@ -7,7 +7,7 @@ class Hold():
 			wherer = input("[E]ncrypt or [D]ecrpyt a Message? ")
 			if wherer == "E" or wherer == "e":
 				self.encrypt()
-			else:
+			elif wherer == "D" or wherer == "d":
 				self.decrypt()
 	def setter(self):
 		self.result = []
