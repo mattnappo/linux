@@ -1,3 +1,4 @@
+from tkinter import Tk
 class Hold():
 	def __init__(self):
 		self.result = []
@@ -25,6 +26,11 @@ class Hold():
 			self.result.append(chr(ord(i)+2))
 		self.printer()
 	def printer(self):
+		r = Tk()
+		r.withdraw()
+		r.clipboard_clear()
+		r.clipboard_append(str(self.result))
+		r.destroy()
 		for x in self.result:
 			print(x, end="")
 		print("")
