@@ -1,5 +1,5 @@
 from binaryTree import BinaryTree
-class Decrypt():
+class Decrypt(): #encrypts string
 	def __init__(self):
 		self.decryptedTree = BinaryTree()
 		self.decrypted = ""
@@ -11,14 +11,18 @@ class Decrypt():
 	def printer(self):
 		print(self.decrypted + " to " + self.decryptedTree.get() + ".")
 
-class Encrypt():
+class Encrypt(): #decrypts string
 	def __init__(self):
 		self.encryptedTree = BinaryTree()
 		self.encrypted = ""
 	def encrypt(self):
 		self.encrypted = input("Enter a string: ")
-			for x in self.encrypted:
-				self.encryptedTree.add(x)
+		for x in self.encrypted:
+			self.encryptedTree.add(x)
+		stage = self.encryptedTree.get()
+		stageTree = BinaryTree()
+		for z in stage:
+			stageTree.add(z)
 		self.printer()
 	def printer(self):
 		print(self.encrypted + " to " + self.encryptedTree.get() + ".")

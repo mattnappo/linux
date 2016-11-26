@@ -50,3 +50,5 @@ class BinaryTree:
     def get(self):
         self.getRec(self.head)
         return self.rec
+    def clear(self):
+        
