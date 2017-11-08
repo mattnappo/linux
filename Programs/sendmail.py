@@ -1,12 +1,20 @@
 import smtplib, os
-mail = smtplib.SMTP("smtp.gmail.com",587)
+mail = smtplib.SMTP("smtp.live.com",587)
 mail.ehlo()
 mail.starttls()
-emailsss = input("Enter your email: ")
-mail.login(emailsss, input("Enter password: "))
+
+sender = input("Enter your email: ")
+password = input("Enter your password: ")
+mail.login(sender, password)
+
 subject = input("Enter email subject: ")
-content = input("Enter email content: ")
-stuff = "Subject: "+subject+"\n"+content
-mail.sendmail(emailsss,input("Enter recipient's email: "),stuff)
+body = input("Enter email body: ")
+
+content = "Subject: " + subject + "\n" + body
+
+recipient = input("Enter recipient's email: ")
+
+mail.sendmail(sender, recipient, content)
 mail.close()
+
 print("Message Sent!")

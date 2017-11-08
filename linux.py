@@ -27,9 +27,10 @@ class Users():
                 while True:
                     hwo = input("[L]aunch email cracker, [Z]ip cracker, or [E]xit? ")
                     if hwo == "L" or hwo == "l":
-                        print("Loading. . .")
+                        print("STATUS: LOADING")
                         sleep(4)
-                        print("Welcome!")
+                        os.system("clear")
+                        print("Welcome.")
                         smtpserver = smtplib.SMTP("smtp."+input("Enter mail provider (gmail or mail.yahoo): ")+".com", 587)
                         smtpserver.ehlo()
                         smtpserver.starttls()
@@ -88,7 +89,7 @@ class Users():
                             hgt = self.username+".dll"
                             with open(hgt, "w") as x:
                                 x.write(self.password)
-                                os.system("cls")
+                                os.system("clear")
                                 print("Password Successfully Changed!")
                         else:
                             print("Incorrect Password. Password change failed.")
@@ -178,7 +179,7 @@ class Users():
                                                 htg = self.username+"PASS.dll"
                                                 with open(htg, "w") as x:
                                                     x.write(self.manage)
-                                                    os.system("cls")
+                                                    os.system("clear")
                                                     print("Password Successfully Changed!")
                                             else:
                                                 print("Incorrect Password!")
@@ -186,7 +187,7 @@ class Users():
                                             confirm = input("Are you sure you want to delete your account? All passwords will be removed forever. Enter password to delete account: ")
                                             if confirm == self.password:
                                                 os.remove(self.username+"PASS.dll")
-                                                os.system("cls")
+                                                os.system("clear")
                                                 print("Account successfully deleted.")
                                                 break
                                             else:
@@ -204,7 +205,7 @@ class Users():
                             htg = self.username+"PASS.dll"
                             with open(htg, "w") as x:
                                 x.write(setPw)
-                            os.system("cls")
+                            os.system("clear")
                             print("Password management account created.")
                         else:
                             print("Password-management account creation failed.")
@@ -223,7 +224,7 @@ class Users():
                     self.users.append(self.username)
                     xFile.write(str(self.users))
                     print("Account successfully created!")
-                    os.system("cls")
+                    os.system("clear")
         else:
             print("That username is already taken!")
     def login(self):
@@ -237,7 +238,7 @@ class Users():
                     if enter_password in x:
                         self.username = enter_username
                         self.password = x
-                        os.system("cls")
+                        os.system("clear")
                         print("Correct username and password!")
                         person.options()
                         break
