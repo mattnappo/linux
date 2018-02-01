@@ -8,7 +8,6 @@ class Client():
             if self.password == password:
                 return True
             else:
-
                 return False
         else:
             return False
@@ -21,7 +20,6 @@ class Client():
                     self.password = f.read()
                     return True
             else:
-
                 return False
         else:
             return False
