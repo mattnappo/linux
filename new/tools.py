@@ -54,13 +54,14 @@ class FTPCrack():
 class HashCrack():
     def __init__(self, h, lookup):
         self.hash = h
+        self.lookup = lookup
         self.brute_force()
     def scan(self, f):
         passwfile = open(f, "r").readlines()
         for password in passwfile:
             password = password.strip()
             sha256value = sha256(password)
-            if lookup == True:
+            if self.lookup == True:
                 if self.hash == password:
                     print("[+]Keyword Found: " + password)
                     return True
@@ -79,7 +80,7 @@ class HashCrack():
                 found = True
                 break
         if found == False:
-            if lookup == True:
+            if self.lookup == True:
                 print("[-]Keyword Not in Dictionaries.")
             else:
                 print("[-]Hash Not in Dictionaries.")

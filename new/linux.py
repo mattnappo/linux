@@ -1,3 +1,4 @@
+# to do: register, hash users' passwords, better command handler (JSON thingy with exec("python code in string"))
 import os, datetime, getpass, tools
 from client import Client
 class Linux():
@@ -5,15 +6,19 @@ class Linux():
         os.system("clear")
         print("ｌｉｎｕｘ : 為サス")
         self.programs = {
-        "login":"login to a user's workspace",
+        "login":"login to a user's workspace\nQuickLogin syntax (optional): login <username> <password>",
         "register":"register a new user"
         }
         self.tools = {
-        "smtpCrack":"use extensive password dictionaries to brute force into an email account\nSyntax: smtpCrack <email address> <smtp server name>",
-        "ftpCrack":"use extensive password dictionaries to brute force into an ftp server\nSyntax: ftpCrack <username> <host>",
-        "hashCrack":"use extensive password dictionaries to crack a SHA256 hash\nSyntax: hashCrack <SHA256 hash>\n--lookup: searches for plaintext in dictionaries. Ex: hashCrack plaintext --lookup",
+        "smtpcrack":"use extensive password dictionaries to brute force into an email account\nSyntax: smtpCrack <email address> <smtp server name>",
+        "ftpcrack":"use extensive password dictionaries to brute force into an ftp server\nSyntax: ftpCrack <username> <host>",
+        "hashcrack":"use extensive password dictionaries to crack a SHA256 hash\nSyntax: hashCrack <SHA256 hash>\n--lookup: searches for plaintext in dictionaries",
         "manage":"manage user account",
         "logout":"leave the workspace"
+        }
+        self.manages = {
+        "change":"change username or password\nSyntax: new --username <username>\n            --password",
+        "delete":"permanently delete account\nSyntax: delete <username>"
         }
         self.client = Client()
         self.location = "login_page"
@@ -45,18 +50,20 @@ class Linux():
         else:
             print(arr[mod])
     def lookup(self, arr, commands):
-        lookup = ""
+        looker = ""
         for program in arr:
             if commands[1] == program:
-                lookup = program
+                looker = program
                 break
-        if lookup == "":
+        if looker == "":
             print("Invalid syntax.")
         else:
             if self.location == "workspace":
-                self.help(lookup, self.tools)
+                self.help(looker, self.tools)
             elif self.location == "login_page":
-                self.help(lookup, self.programs)
+                self.help(looker, self.programs)
+            elif self.location == "manage":
+                self.help(looker, self.manages)
     def cmd(self):
         x = input("/ ")
         x = x.lower()
@@ -69,11 +76,17 @@ class Linux():
                     self.help("", self.programs)
                 elif self.location == "workspace":
                     self.help("", self.tools)
+                elif self.location == "manage":
+                    self.help("", self.manages)
             else:
                 if self.location == "login_page":
                     self.lookup(self.programs, commands)
                 elif self.location == "workspace":
                     self.lookup(self.tools, commands)
+                elif self.location == "manage":
+                    print("before")
+                    self.lookup(self.manages, commands)
+                    print("after")
         if self.location == "workspace":
             if commands[0] == "smtpcrack":
                 if len(commands) == 3:
@@ -92,12 +105,39 @@ class Linux():
                     self.__init__()
                 else:
                     print("Invalid syntax.")
+            elif commands[0] == "manage":
+                if len(commands) == 1:
+                    self.location = "manage"
+                    os.system("clear")
+                    print("Account management")
+                else:
+                    print("Invalid syntax.")
             elif commands[0] == "help":
                 pass
             else:
                 print("Unknown command.")
         elif self.location == "manage":
-            pass
+            if commands[0] == "delete":
+                if len(commands) == 2:
+                    if commands[1] == self.client.username:
+                        while True:
+                            ays = input("Delete account '" + self.client.username + "' (YES/NO)? ")
+                            if ays == "YES":
+                                if getpass.getpass("Password: ") == self.client.password:
+                                    self.client.remove()
+                                    self.__init__()
+                                else:
+                                    print("Incorrect password.")
+                                break
+                            elif ays == "NO":
+                                print("Account not deleted.")
+                                break
+                    else:
+                        print("Incorrect username.")
+                else:
+                    print("Invalid syntax.")
+            elif commands[0] == "help":
+                pass
         elif self.location  == "login_page":
             if commands[0] == "login":
                 if len(commands) == 3:

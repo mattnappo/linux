@@ -1,11 +1,11 @@
-import os
+import os, tools
 class Client():
     def __init__(self):
         self.username = ""
         self.password = ""
     def login(self, username, password):
         if self.load(username) == True:
-            if self.password == password:
+            if self.password == tools.sha256(password):
                 return True
             else:
                 return False
@@ -31,7 +31,7 @@ class Client():
             filename = "usr/" + self.username + ".usr"
             if os.path.isfile(filename) == False:
                 with open(filename, "w") as f:
-                    f.write(self.password)
+                    f.write(tools.sha256(self.password))
                     return True
             else:
                 return False
@@ -56,3 +56,5 @@ class Client():
             self.password = new
             self.remove()
             self.register(self.password)
+f = Client()
+f.register("q", "q")
