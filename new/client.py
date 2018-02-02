@@ -24,7 +24,8 @@ class Client():
         else:
             return False
         return False
-    def register(self, password):
+    def register(self, username, password):
+        self.username = username
         self.password = password
         if self.username != "" and self.password != "":
             filename = "usr/" + self.username + ".usr"

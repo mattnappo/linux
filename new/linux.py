@@ -2,15 +2,18 @@ import os, datetime, getpass, tools
 from client import Client
 class Linux():
     def __init__(self):
+        os.system("clear")
+        print("ｌｉｎｕｘ : 為サス")
         self.programs = {
-        "login":"login to an account",
-        "register":"create a new account"
+        "login":"login to a user's workspace",
+        "register":"register a new user"
         }
         self.tools = {
         "smtpCrack":"use extensive password dictionaries to brute force into an email account\nSyntax: smtpCrack <email address> <smtp server name>",
         "ftpCrack":"use extensive password dictionaries to brute force into an ftp server\nSyntax: ftpCrack <username> <host>",
-        "hashCrack":"use extensive password dictionaries to crack a SHA256 hash\nSyntax: hashCrack <SHA256 hash>",
-        "manage":"manage user account"
+        "hashCrack":"use extensive password dictionaries to crack a SHA256 hash\nSyntax: hashCrack <SHA256 hash>\n--lookup: searches for plaintext in dictionaries. Ex: hashCrack plaintext --lookup",
+        "manage":"manage user account",
+        "logout":"leave the workspace"
         }
         self.client = Client()
         self.location = "login_page"
@@ -31,7 +34,7 @@ class Linux():
             print(username + " logged in on " + dt)
             self.location = "workspace"
         else:
-            print("Unknown Login")
+            print("Unknown login.")
     def register(self):
         pass
     def help(self, mod, arr):
@@ -48,7 +51,7 @@ class Linux():
                 lookup = program
                 break
         if lookup == "":
-            print("Invalid Syntax")
+            print("Invalid syntax.")
         else:
             if self.location == "workspace":
                 self.help(lookup, self.tools)
@@ -75,30 +78,37 @@ class Linux():
             if commands[0] == "smtpcrack":
                 if len(commands) == 3:
                     smtpCrack = tools.SMTPCrack(commands[1], commands[2])
-                    smtpCrack = None
                 else:
-                    print("Invalid Syntax")
-
+                    print("Invalid syntax.")
             elif commands[0] == "hashcrack":
                 if len(commands) == 2:
-                    hashCrack = tools.HashCrack(commands[1])
-                    smtpCrack = None
+                    hashCrack = tools.HashCrack(commands[1], False)
+                elif len(commands) == 3 and commands[2] == "--lookup":
+                    hashCrack = tools.HashCrack(commands[1], True)
                 else:
-                    print("Invalid Syntax")
+                    print("Invalid syntax.")
+            elif commands[0] == "logout":
+                if len(commands) == 1:
+                    self.__init__()
+                else:
+                    print("Invalid syntax.")
             elif commands[0] == "help":
                 pass
             else:
-                print("Unknown Command")
+                print("Unknown command.")
         elif self.location == "manage":
             pass
         elif self.location  == "login_page":
             if commands[0] == "login":
                 if len(commands) == 3:
-                    self.login(commands[1], commands[2])
-                self.login()
+                    self.login(True, commands[1], commands[2])
+                elif len(commands) == 1:
+                    self.login(False, "", "")
+                else:
+                    print("Invalid syntax.")
             elif commands[0] == "register":
                 self.register()
             elif commands[0] == "help":
                 pass
             else:
-                print("Unknown Command")
+                print("Unknown command.")
