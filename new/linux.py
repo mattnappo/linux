@@ -39,7 +39,7 @@ class Linux():
             print(username + " logged in on " + dt)
             self.location = "workspace"
         else:
-            print("Unknown login.")
+            print("Invalid login.")
     def register(self):
         pass
     def help(self, mod, arr):
@@ -84,9 +84,7 @@ class Linux():
                 elif self.location == "workspace":
                     self.lookup(self.tools, commands)
                 elif self.location == "manage":
-                    print("before")
                     self.lookup(self.manages, commands)
-                    print("after")
         if self.location == "workspace":
             if commands[0] == "smtpcrack":
                 if len(commands) == 3:
@@ -115,7 +113,7 @@ class Linux():
             elif commands[0] == "help":
                 pass
             else:
-                print("Unknown command.")
+                print("Invalid command.")
         elif self.location == "manage":
             if commands[0] == "delete":
                 if len(commands) == 2:
@@ -124,8 +122,10 @@ class Linux():
                             ays = input("Delete account '" + self.client.username + "' (YES/NO)? ")
                             if ays == "YES":
                                 if getpass.getpass("Password: ") == self.client.password:
-                                    self.client.remove()
-                                    self.__init__()
+                                    if self.client.remove() == True:
+                                        self.__init__()
+                                    else:
+                                        print("Remove failed unexpectedly.")
                                 else:
                                     print("Incorrect password.")
                                 break
@@ -136,8 +136,28 @@ class Linux():
                         print("Incorrect username.")
                 else:
                     print("Invalid syntax.")
+            elif commands[0] == "change":
+                if len(commands) == 3:
+                    if commands[1] == "--username":
+                        while True:
+                            ays = input("Change username from '" + self.client.username + "' to '" + commands[2] + "' (YES/NO)? ")
+                            if ays == "YES":
+                                print(self.client.password)
+                                if tools.sha256(getpass.getpass("Password: ")) == self.client.password:
+                                    if self.client.change("username", commands[2]) == True:
+                                        print("Username changed successfully.")
+                                    else:
+                                        print("Change failed unexpectedly.")
+                                else:
+                                    print("Incorrect password.")
+                                break
+                            elif ays == "NO":
+                                print("Username not changed")
+                                break
             elif commands[0] == "help":
                 pass
+            else:
+                print("Invalid command.")
         elif self.location  == "login_page":
             if commands[0] == "login":
                 if len(commands) == 3:
@@ -151,4 +171,4 @@ class Linux():
             elif commands[0] == "help":
                 pass
             else:
-                print("Unknown command.")
+                print("Invalid command.")

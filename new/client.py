@@ -49,12 +49,11 @@ class Client():
             return False
     def change(self, modifier, new):
         if modifier == "username":
+            self.remove()
             self.username = new
-            self.remove()
-            self.register(self.password)
+            self.register(self.username, self.password)
         elif modifier == "password":
-            self.password = new
             self.remove()
-            self.register(self.password)
-f = Client()
-f.register("q", "q")
+            self.password = new
+            self.register(self.username, self.password)
+Client().register("q", "q")
