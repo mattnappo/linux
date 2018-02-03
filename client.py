@@ -11,10 +11,17 @@ class Client():
                 return False
         else:
             return False
+    def isInUse(self, username):
+        usernames = os.listdir("users/")
+        f = username
+        for username in usernames:
+            if f == username:
+                return True
+        return False
     def load(self, username):
         self.username = username
         if self.username != "":
-            filename = "usr/" + self.username + ".usr"
+            filename = "users/" + self.username
             if os.path.isfile(filename) == True:
                 with open(filename, "r") as f:
                     self.password = f.read()
@@ -28,7 +35,7 @@ class Client():
         self.username = username
         self.password = password
         if self.username != "" and self.password != "":
-            filename = "usr/" + self.username + ".usr"
+            filename = "users/" + self.username
             if os.path.isfile(filename) == False:
                 with open(filename, "w") as f:
                     f.write(tools.sha256(self.password))
@@ -39,7 +46,7 @@ class Client():
             return False
     def remove(self):
         if self.username != "" and self.password != "":
-            filename = "usr/" + self.username + ".usr"
+            filename = "users/" + self.username
             if os.path.isfile(filename) == True:
                 os.remove(filename)
                 return True
@@ -47,13 +54,15 @@ class Client():
                 return False
         else:
             return False
-    def change(self, modifier, new):
+    def change(self, modifier, new, password):
         if modifier == "username":
             self.remove()
             self.username = new
-            self.register(self.username, self.password)
+            self.register(self.username, password)
+            return True
         elif modifier == "password":
             self.remove()
             self.password = new
-            self.register(self.username, self.password)
-Client().register("q", "q")
+            self.register(self.username, password)
+            return True
+        return False

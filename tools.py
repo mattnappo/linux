@@ -20,6 +20,8 @@ class SMTPCrack():
                 return True
             except smtplib.SMTPAuthenticationError:
                 print("[-]Password Incorrect: " + password)
+            except smtplib.SMTPServerDisconnected:
+                print("Connection unexpectedly closed")
     def brute_force(self):
         files = os.listdir("passwords/")
         for f in files:
