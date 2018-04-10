@@ -1,0 +1,13 @@
+{
+  "commands": {
+
+    "com1": {
+      "argument_length": 2,
+      "execode":"print('com1 success!')"
+    },
+    "com2": {
+      "argument_length": 3,
+      "execode":"print('com2 success!')"
+    }
+  }
+}
