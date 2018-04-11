@@ -54,15 +54,16 @@ class Client():
                 return False
         else:
             return False
-    def change(self, modifier, new, password):
+    def change(self, modifier, new):
         if modifier == "username":
             self.remove()
             self.username = new
             self.register(self.username, password)
             return True
         elif modifier == "password":
-            self.remove()
+            filename = "users/" + self.username
+            with open(filename, "w") as f:
+                f.write(tools.sha256)
             self.password = new
-            self.register(self.username, password)
             return True
         return False

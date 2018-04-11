@@ -169,6 +169,23 @@ class Linux():
                             elif ays == "NO":
                                 print("Username not changed")
                                 break
+                    elif commands[1] == "--password":
+                        pwd = getpass.getpass("Current password: ")
+                        if pwd == self.client.password:
+                            newpw = getpass.getpass("New password: ")
+                            confirm_newpw = getpass.getpass("Confirm new password: ")
+                            if newpw == confirm_newpw:
+                                if newpw == self.client.password:
+                                    print("Your new password must be different than your old password.")
+                                else:
+                                    if self.client.change("password", newpw) == True:
+                                        print("Password successfully changed.")
+                                    else:
+                                        print("Please try again.")
+                            else:
+                                print("Passwords do not match.")
+                        else:
+                            print("Incorrect password.")
             if commands[0] == "exit":
                 if len(commands) == 1:
                     self.location = "workspace"
