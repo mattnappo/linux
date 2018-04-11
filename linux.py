@@ -15,7 +15,7 @@ class Linux():
         self.tools = {
         "smtpcrack":"use extensive password dictionaries to brute force into an email account\nSyntax: smtpCrack <email address> <smtp server name>",
         "ftpcrack":"use extensive password dictionaries to brute force into an ftp server\nSyntax: ftpCrack <username> <host>",
-        "hashcrack":"use extensive password dictionaries to crack a SHA256 hash\nSyntax: hashCrack <SHA256 hash>\n--lookup: searches for plaintext in dictionaries",
+        "hashcrack":"use extensive password dictionaries to crack a SHA256 hash\nSyntax: hashCrack <SHA256 hash>\n--lookup: searches for plaintext in dictionaries\n--add: adds a password to the dictionaries",
         "manage":"manage user account",
         "logout":"leave the workspace"
         }
@@ -111,6 +111,10 @@ class Linux():
                     hashCrack = tools.HashCrack(commands[1], False)
                 elif len(commands) == 3 and commands[2] == "--lookup":
                     hashCrack = tools.HashCrack(commands[1], True)
+                elif len(commands) == 3 and commands[2] == "--add":
+                    with open("passwords/custom.txt", "a") as f:
+                        f.write(commands[1] + "\n")
+                    print("Added " + commands[1] + " to the dictionary.")
                 else:
                     print("Invalid syntax.")
             elif commands[0] == "logout":
@@ -176,7 +180,7 @@ class Linux():
                     elif commands[1] == "--password":
                         if len(commands) == 2:
                             pwd = getpass.getpass("Current password: ")
-                            if pwd == self.client.password:
+                            if tools.sha256(pwd) == self.client.password:
                                 newpw = getpass.getpass("New password: ")
                                 confirm_newpw = getpass.getpass("Confirm new password: ")
                                 if newpw == confirm_newpw:

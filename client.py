@@ -67,7 +67,7 @@ class Client():
         elif modifier == "password":
             filename = "users/" + self.username
             with open(filename, "w") as f:
-                f.write(tools.sha256(pwd))
+                f.write(tools.sha256(new))
             self.password = new
             return True
         return False
