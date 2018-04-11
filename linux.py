@@ -20,7 +20,7 @@ class Linux():
         "logout":"leave the workspace"
         }
         self.manages = {
-        "change":"change username or password\nSyntax: new --username <username>\n            --password",
+        "change":"change username or password\nSyntax: change --username <username>\n            --password",
         "delete":"permanently delete account\nSyntax: delete <username>",
         "exit":"exit the account management panel"
         }
@@ -53,7 +53,7 @@ class Linux():
             password = getpass.getpass("Password: ")
             confirm = getpass.getpass("Password (again): ")
             if password == confirm:
-                self.client.register(username, password)
+                self.client.register(username, password, False)
                 print("Account created.")
             else:
                 print("Passwords do not match.")
@@ -152,41 +152,52 @@ class Linux():
                 else:
                     print("Invalid syntax.")
             elif commands[0] == "change":
-                if len(commands) == 3:
+                if len(commands) == 3 or len(commands) == 2:
                     if commands[1] == "--username":
-                        while True:
-                            ays = input("Change username from '" + self.client.username + "' to '" + commands[2] + "' (YES/NO)? ")
-                            if ays == "YES":
-                                pwd = getpass.getpass("Password: ")
-                                if tools.sha256(pwd) == self.client.password:
-                                    if self.client.change("username", commands[2], pwd) == True:
-                                        print("Username changed successfully.")
+                        if len(commands) == 3:
+                            while True:
+                                ays = input("Change username from '" + self.client.username + "' to '" + commands[2] + "' (YES/NO)? ")
+                                if ays == "YES":
+                                    pwd = getpass.getpass("Password: ")
+                                    print("pwd: " + pwd + "\nself.client.password: " + self.client.password)
+                                    if tools.sha256(pwd) == self.client.password:
+                                        if self.client.change("username", commands[2]) == True:
+                                            print("Username changed successfully.")
+                                        else:
+                                            print("Change failed unexpectedly.")
                                     else:
-                                        print("Change failed unexpectedly.")
-                                else:
-                                    print("Incorrect password.")
-                                break
-                            elif ays == "NO":
-                                print("Username not changed")
-                                break
-                    elif commands[1] == "--password":
-                        pwd = getpass.getpass("Current password: ")
-                        if pwd == self.client.password:
-                            newpw = getpass.getpass("New password: ")
-                            confirm_newpw = getpass.getpass("Confirm new password: ")
-                            if newpw == confirm_newpw:
-                                if newpw == self.client.password:
-                                    print("Your new password must be different than your old password.")
-                                else:
-                                    if self.client.change("password", newpw) == True:
-                                        print("Password successfully changed.")
-                                    else:
-                                        print("Please try again.")
-                            else:
-                                print("Passwords do not match.")
+                                        print("Incorrect password.")
+                                    break
+                                elif ays == "NO":
+                                    print("Username not changed")
+                                    break
                         else:
-                            print("Incorrect password.")
-            if commands[0] == "exit":
+                            print("Invalid syntax.")
+                    elif commands[1] == "--password":
+                        if len(commands) == 2:
+                            pwd = getpass.getpass("Current password: ")
+                            if pwd == self.client.password:
+                                newpw = getpass.getpass("New password: ")
+                                confirm_newpw = getpass.getpass("Confirm new password: ")
+                                if newpw == confirm_newpw:
+                                    if newpw == self.client.password:
+                                        print("Your new password must be different than your old password.")
+                                    else:
+                                        if self.client.change("password", newpw) == True:
+                                            print("Password successfully changed.")
+                                        else:
+                                            print("Change failed unexpectedly.")
+                                else:
+                                    print("Passwords do not match.")
+                            else:
+                                print("Incorrect password.")
+                        else:
+                            print("Invalid syntax.")
+                    else:
+                        print("Invalid syntax")
+                else:
+                    print("Invalid syntax")
+            elif commands[0] == "exit":
                 if len(commands) == 1:
                     self.location = "workspace"
                 else:
