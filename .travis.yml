@@ -1,0 +1,6 @@
+language: pythom
+python:
+  - "3.6"
+script:
+  - python3 client.py
+  - python3 tools.py
