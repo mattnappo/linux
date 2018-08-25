@@ -1,5 +1,5 @@
 import smtplib, ftplib, hashlib
-import os, socket, getpass
+import os, socket
 class SMTPCrack():
     def __init__(self, email_addr, smtp_server_name):
         self.email_addr = email_addr
@@ -89,27 +89,33 @@ class HashCrack():
 class SendMail():
     def __init__(self, host):
         self.mail = smtplib.SMTP(host, 587)
-        self.mail.ehlo()
-        self.mail.starttls()
-        self.login()
+        try:
+            self.mail.ehlo()
+            self.mail.starttls()
+            login()
+        except:
+            print("Connection error.")
     def login(self):
-        self.sender = input("Enter your email: ")
-        password = getpass.getpass("Enter password: ")
-
-        self.mail.login(self.sender, password)
-
-
-
+        sender = input("Enter your email: ")
+        password = input("Enter password: ")
+        try:
+            self.mail.login(sender, password)
+            send()
+        except:
+            print("Authentication error.")
+            return False
     def send(self):
         recepient = input("Enter recipient's email: ")
         subject = input("Enter email subject: ")
         body = input("Enter email content: ")
-        content = "Subject: "+subject+"\n" + body
-
-        self.mail.sendmail(self.sender, recepient , content)
-        self.mail.close()
-        print("Message Sent!")
-
+        content = "Subject: "+subject+"\n"+content
+        try:
+            mail.sendmail(sender, recepient , content)
+            mail.close()
+            print("Message Sent!")
+        except:
+            print("Problem sending email.")
+            return False
 def sha256(raw):
     encoded = raw.encode("utf-8")
     hashed = hashlib.sha256(encoded).hexdigest()

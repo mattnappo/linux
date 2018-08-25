@@ -117,6 +117,11 @@ class Linux():
                     print("Added " + commands[1] + " to the dictionary.")
                 else:
                     print("Invalid syntax.")
+            elif commands[0] == "ftpcrack":
+                if len(commands) == 3:
+                    ftpCrack = tools.FTPCrack(commands[1], commands[2])
+                else:
+                    print("Invalid syntax.")
             elif commands[0] == "logout":
                 if len(commands) == 1:
                     self.__init__()
@@ -130,7 +135,7 @@ class Linux():
                 else:
                     print("Invalid syntax.")
             elif commands[0] == "help" or commands[0] == "clear":
-                pass
+                pass # because these commands are handled elsewhere
             else:
                 print("Invalid command.")
         elif self.location == "manage":
